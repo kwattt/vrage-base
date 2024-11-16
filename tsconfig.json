@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist"
+    },
+    "references": [
+        { "path": "./src/main/server" },
+        { "path": "./src/main/client" },
+        { "path": "./src/plugin/server" },
+        { "path": "./src/plugin/client" }
+    ]
+}

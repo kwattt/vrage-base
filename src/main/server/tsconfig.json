@@ -1,0 +1,21 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "types": ["../../node_modules/@ragempcommunity/types-server"],
+        "baseUrl": "../../",  // Changed to src folder
+        "paths": {
+            "@shared/*": ["main/shared/*"]
+        },
+        "emitDecoratorMetadata": true,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "Bundler"
+    },
+    "include": [
+        "./**/*.ts",                    // Main server files
+        "../shared/**/*.ts",            // Shared files
+        "../../plugin/**/server/**/*.ts"  // All plugin server files
+    ],
+    "exclude": [
+        "../shared/**/*.d.ts"
+    ],
+}
