@@ -1,6 +1,7 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
+        "composite": true,
         "types": ["../../node_modules/@ragempcommunity/types-server"],
         "baseUrl": "../../",  // Changed to src folder
         "paths": {

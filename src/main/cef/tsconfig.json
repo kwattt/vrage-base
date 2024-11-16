@@ -1,6 +1,7 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
+        "composite": true,
         "types": ["../../node_modules/@ragempcommunity/types-cef", "vue"],
         "baseUrl": "../../",
         "paths": {
@@ -9,14 +10,20 @@
         },
         "emitDecoratorMetadata": true,
         "strictPropertyInitialization": false,
-        "moduleResolution": "Bundler"
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+        "jsx": "preserve",
+        // Add these to help with Vue file resolution
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true
     },
     "include": [
-        "./",              // Current directory
-        "./**/*",         // All files in current directory and subdirectories
-        "../shared/**/*", // Shared files
-        "../../vue/**/*", // Vue base components
-        "../../plugin/**/cef/**/*"  // Plugin CEF files
+        "./",                         
+        "./**/*",                    
+        "../shared/**/*",            
+        "../plugin/**/cef/**/*.ts",  // Changed to relative path
+        "../plugin/**/cef/**/*.vue", // Changed to relative path
     ],
     "exclude": [
         "../shared/**/*.d.ts",

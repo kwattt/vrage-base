@@ -1,0 +1,24 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "types": ["../../node_modules/@ragempcommunity/types-cef", "vue"],
+        "baseUrl": "../",
+        "paths": {
+            "@shared/*": ["main/shared/*"],
+            "@vue/*": ["vue/*"]
+        },
+        "emitDecoratorMetadata": true,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+        "jsx": "preserve"
+    },
+    "include": [
+        "./**/cef/**/*.vue",
+        "./**/cef/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

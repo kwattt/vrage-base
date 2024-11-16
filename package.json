@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "server": "node ./scripts/init/download_server_files.js"
   },
   "dependencies": {
     "@ragempcommunity/types-cef": "github:ragempcommunity/ragemp-types#types-cef",
@@ -11,7 +12,6 @@
     "dotenv": "^16.4.5",
     "kysely": "^0.27.4",
     "pg": "^8.13.1",
-    "vrage": "file:.yalc/vrage",
     "vue": "^3.5.13"
   },
   "devDependencies": {

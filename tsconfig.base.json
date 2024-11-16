@@ -23,7 +23,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowJs": true,
-    "declaration": false,
+    "declaration": true,
     "declarationMap": false,
     "sourceMap": false,
     "alwaysStrict": true,

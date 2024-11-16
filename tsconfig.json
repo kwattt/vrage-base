@@ -1,5 +1,16 @@
 {
     "compilerOptions": {
         "outDir": "./dist"
-    }
+    },
+    "references": [
+        {
+            "path": "./src/main/cef"
+        },
+        {
+            "path": "./src/main/client"
+        },
+        {
+            "path": "./src/main/server"
+        }
+    ]
 }
