@@ -4,12 +4,15 @@
     "dev": "rollup -c -w"
   },
   "dependencies": {
+    "@ragempcommunity/types-cef": "github:ragempcommunity/ragemp-types#types-cef",
     "@ragempcommunity/types-client": "github:ragempcommunity/ragemp-types#types-client",
     "@ragempcommunity/types-server": "github:ragempcommunity/ragemp-types#types-server",
+    "@vue/tsconfig": "^0.6.0",
     "dotenv": "^16.4.5",
     "kysely": "^0.27.4",
     "pg": "^8.13.1",
-    "vrage": "file:.yalc/vrage"
+    "vrage": "file:.yalc/vrage",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -20,7 +23,6 @@
     "@swc/core": "^1.2.118",
     "@swc/helpers": "^0.3.2",
     "@vitejs/plugin-vue": "^5.2.0",
-    "@vitejs/plugin-vue-jsx": "^4.1.0",
     "@vue/compiler-sfc": "^3.5.13",
     "autoprefixer": "^10.4.20",
     "colorette": "^2.0.20",
@@ -34,7 +36,9 @@
     "rollup-plugin-tsconfig-paths": "^1.0.15",
     "rollup-plugin-typescript2": "^0.31.1",
     "rollup-plugin-vue": "^6.0.0",
+    "sass": "^1.81.0",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vue-tsc": "^2.1.10"
   }
 }

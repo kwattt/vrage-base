@@ -1,47 +1,32 @@
-// src/main/cef/Hello.vue
 <template>
-  <div class="hello">
-    <h1>{{ message }}</h1>
-    <button @click="count++">Clicked: {{ count }}</button>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'Hello',
-  data() {
-    return {
-      message: 'Hello World!',
-      count: 0
+    <base-cef name="mainMenu" custom-class="menu-container">
+      <div class="menu">
+        <h2>Main Menu</h2>
+        <div class="menu-content">
+          <input type="text" v-model="inputText" placeholder="Type something...">
+          <button @click="test(inputText)">Test</button>
+        </div>
+      </div>
+    </base-cef>
+  </template>
+  
+  <script lang="ts">
+  import BaseCef from '../../../vue/BaseCef.vue'
+  import { test } from './test'
+  
+  export default {
+    name: 'ExampleMenu',
+    components: {
+      BaseCef
+    },
+    data() {
+      return {
+        inputText: '',
+        count: 0
+      }
+    },
+    methods: {
+      test
     }
   }
-}
-</script>
-
-<style lang="scss" scoped>
-.hello {
-  text-align: center;
-  padding: 20px;
-  background: #f0f0f0;
-  border-radius: 8px;
-  margin: 20px;
-
-  h1 {
-    color: #42b883;
-  }
-
-  button {
-    padding: 8px 16px;
-    margin-top: 10px;
-    border: none;
-    background: #42b883;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background: #3aa876;
-    }
-  }
-}
-</style>
+  </script>

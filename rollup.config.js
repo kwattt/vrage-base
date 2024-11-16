@@ -13,7 +13,6 @@ import { terser } from 'rollup-plugin-terser';
 import vuePlugin from 'rollup-plugin-vue';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
-import html from '@rollup/plugin-html';
 import postcssImport from 'postcss-import';
 import tailwindcss from 'tailwindcss';
 
@@ -301,12 +300,7 @@ export { main, ${pluginNames.join(', ')} };`;
             ...plugins
         ].filter(Boolean),
         external: isServer ? external : [],
-        inlineDynamicImports: true,
-        onwarn(warning, warn) {
-            if (warning.code === 'CIRCULAR_DEPENDENCY') return;
-            if (warning.code === 'THIS_IS_UNDEFINED') return;
-            warn(warning);
-        }
+        inlineDynamicImports: sassTrue
     };
 };
 
@@ -373,36 +367,6 @@ const getVueEntries = () => {
   return entries;
 };
 
-const generateHtml = (entries) => {
-  const template = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VRAGE-UI</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link rel="stylesheet" href="./main.css">
-    ${entries.map(entry => `<link rel="stylesheet" href="./${entry.name}.css">`).join('\n    ')}
-</head>
-<body>
-    ${entries.map(entry => `<div id="${entry.name}"></div>`).join('\n    ')}
-    
-    ${entries.map(entry => `<script src="./${entry.name}.js"></script>`).join('\n    ')}
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        ${entries.map(entry => `
-        const ${entry.varName}App = Vue.createApp(${entry.varName});
-        ${entry.varName}App.mount('#${entry.name}');`).join('\n        ')}
-    });
-    </script>
-</body>
-</html>`;
-
-  return template;
-};
-
 const mainCssConfig = {
   input: 'vue/main.css',
   output: {
@@ -421,13 +385,54 @@ const mainCssConfig = {
   ],
 };
 
-
-
 // Update Vue configuration generator
-const generateVueConfig = (entry) => {
+const createHtmlPlugin = (entries) => ({
+  name: 'generate-html',
+  generateBundle() {
+    this.emitFile({
+      type: 'asset',
+      fileName: 'index.html',
+      source: `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRAGE-UI</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="./main.css">
+    ${entries.map(entry => 
+      `<link rel="stylesheet" href="./${entry.name}.css">`
+    ).join('\n    ')}
+</head>
+<body>
+    ${entries.map(entry => 
+      `<div id="${entry.name}"></div>`
+    ).join('\n    ')}
+    
+    ${entries.map(entry => 
+      `<script src="./${entry.name}.js"></script>`
+    ).join('\n    ')}
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        ${entries.map(entry => `
+        const ${entry.name}App = Vue.createApp(${entry.varName});
+        ${entry.name}App.mount('#${entry.name}');`
+        ).join('\n        ')}
+    });
+    </script>
+</body>
+</html>`
+    });
+  }
+});
+
+const generateVueConfigs = (entries) => {
   const outputDir = path.join(buildOutput, 'client_packages', 'cef');
   
-  return {
+  // Create individual configs for each component
+  const componentConfigs = entries.map(entry => ({
     input: entry.input,
     output: {
       dir: outputDir,
@@ -442,39 +447,69 @@ const generateVueConfig = (entry) => {
     plugins: [
       nodeResolvePlugin({
         browser: true,
-        extensions: ['.js', '.vue', '.json']
-      }),
-      commonjsPlugin({
-        include: /node_modules/
+        extensions: ['.js', '.ts', '.vue']
       }),
       vuePlugin({
-        preprocessStyles: true
+        preprocessStyles: true,
+        template: {
+          isProduction: true,
+          compilerOptions: {
+            whitespace: 'condense'
+          }
+        }
       }),
-      postcss({
-        plugins: [
-          postcssImport(),
-          tailwindcss(),
-          autoprefixer(),
-        ],
-        extract: `${entry.name}.css`,
-        minimize: isProduction
+      typescriptPlugin({
+        check: false,
+        tsconfig: path.resolve(__dirname, './src/main/cef/tsconfig.json'),
+        tsconfigOverride: {
+          compilerOptions: {
+            declaration: false,
+            declarationMap: false,
+            sourceMap: false
+          }
+        }
       }),
-      html({
-        fileName: 'index.html',
-        template: () => generateHtml(vueEntries)
-      }),
-      terserMinify
-    ].filter(Boolean)
+      commonjsPlugin({
+        extensions: ['.js', '.ts'],
+        exclude: ['**/*.vue']
+      })
+    ]
+  }));
+
+  // Create a special config just for HTML generation
+  // This ensures the HTML is only generated once
+  const htmlConfig = {
+    input: 'virtual-empty.js',
+    output: {
+      dir: outputDir,
+      format: 'esm'
+    },
+    plugins: [
+      {
+        name: 'virtual-empty',
+        resolveId(id) {
+          if (id === 'virtual-empty.js') return id;
+          return null;
+        },
+        load(id) {
+          if (id === 'virtual-empty.js') return 'export default {}';
+          return null;
+        }
+      },
+      createHtmlPlugin(entries)
+    ]
   };
+
+  return [...componentConfigs, htmlConfig];
 };
 
 // Export configurations
 const vueEntries = getVueEntries();
-const vueConfigs = vueEntries.length > 0 ? vueEntries.map(entry => generateVueConfig(entry)) : [];
+const vueConfigs = vueEntries.length > 0 ? generateVueConfigs(vueEntries) : [];
 
 export default [
   generateConfig({ isServer: true }), 
   generateConfig({ isServer: false }),
   mainCssConfig,
-  ...vueConfigs
+  ...(vueEntries.length > 0 ? vueConfigs : [])
 ];

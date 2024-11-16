@@ -1,0 +1,25 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "types": ["../../node_modules/@ragempcommunity/types-cef", "vue"],
+        "baseUrl": "../../",
+        "paths": {
+            "@shared/*": ["main/shared/*"],
+            "@vue/*": ["vue/*"]
+        },
+        "emitDecoratorMetadata": true,
+        "strictPropertyInitialization": false,
+        "moduleResolution": "Bundler"
+    },
+    "include": [
+        "./",              // Current directory
+        "./**/*",         // All files in current directory and subdirectories
+        "../shared/**/*", // Shared files
+        "../../vue/**/*", // Vue base components
+        "../../plugin/**/cef/**/*"  // Plugin CEF files
+    ],
+    "exclude": [
+        "../shared/**/*.d.ts",
+        "node_modules"
+    ]
+}
