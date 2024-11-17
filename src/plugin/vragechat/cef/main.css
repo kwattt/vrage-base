@@ -1,0 +1,120 @@
+* {
+    font-family: Ubuntu,sans-serif;
+    font-weight: 700;
+    background-color: transparent;
+    user-select: none;
+    z-index: -5999;
+    font-size: 1em;
+}
+
+#autoComplete {
+    color:white;
+    font-size: 0.9em;
+    font-weight: 400;
+    background-image: linear-gradient(to left, rgba(228, 202, 202, 0.0),rgba(228, 202, 202, 0.393));
+    width: 80%;
+    text-shadow: 0 0 0.1em black, 0 0 0.1em black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+.chatBox {
+    margin: 0.5em 0 0 0.5em;
+    width: 37em;
+    font-size: 18px;
+}
+
+.chatBox:focus {
+    outline: none
+}
+*, *:focus, *:hover {
+    outline: none;
+}
+
+.messageList {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 18em;
+    direction: rtl;
+
+}
+.messageList div {
+    margin-left: 0.25em;
+    direction: ltr;
+
+}
+.scrollbar::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+}
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 1em;
+    background: transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background: rgba(0,0,0,0.75);
+}
+
+.message {
+    color: white;
+    padding-left: 0.3em;
+    line-height: 1.5em;
+}
+
+.inputBar {
+    border-radius: 0.25em;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 30.5em;
+    outline: none;
+    border: none;
+    height: 1.5em;
+    padding: 0 0.3em 0 0.3em;
+    margin-top: 0.3em;
+}
+
+.inputBar::placeholder {
+    color: rgba(255, 255, 255, 0.5);;
+}
+.charCount {
+    color: white;
+    margin-left: 1em;
+}
+.hide {
+    visibility: hidden;
+}
+.hide2{
+    display: none;
+}
+.hide3{
+    background-image: none!important;
+}
+.stroke {
+    text-shadow: 0 0 0.1em black, 0 0 0.1em black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+.color-purple {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(187,156,210,0.333));
+}
+.color-error {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(248, 26, 26, 0.333));
+}
+.color-warning {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(248, 111, 26, 0.333));
+}
+.color-success {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(53, 229, 0, 0.333));
+}
+.color-do {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(142, 189, 46, 0.333));
+}
+.color-info {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(89, 177, 215, 0.333));
+}
+.color-adm {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(231, 121, 87, 0.333));
+}
+
+.solidchat {
+    background-color: #b0b0b2;
+}

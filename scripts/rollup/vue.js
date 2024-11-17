@@ -8,6 +8,7 @@ import jetpack from 'fs-jetpack';
 import nodeResolvePlugin from '@rollup/plugin-node-resolve';
 import typescriptPlugin from 'rollup-plugin-typescript2';
 import commonjsPlugin from '@rollup/plugin-commonjs';
+import cssPlugin from 'rollup-plugin-css-only';
 
 const buildOutput = 'dist';
 function resolvePath(pathParts) {
@@ -109,9 +110,11 @@ export const createHtmlPlugin = (entries) => ({
     <title>VRAGE-UI</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="stylesheet" href="./main.css">
-    ${entries.map(entry => 
-      `<link rel="stylesheet" href="./${entry.name}.css">`
-    ).join('\n    ')}
+    ${
+      entries.map(entry => 
+        `<link rel="stylesheet" href="./${entry.name}.css">`
+      ).join('\n    ')
+    }
     <style>
       .cef-component {
         position: absolute;
@@ -307,6 +310,9 @@ export const generateVueConfigs = (entries) => {
           }
         }
       }),
+      cssPlugin({
+        output: `${entry.name}.css`,
+      }),
       typescriptPlugin({
         check: false,
         tsconfig: path.resolve(__dirname, './src/main/cef/tsconfig.json'),
@@ -349,6 +355,7 @@ export const generateVueConfigs = (entries) => {
 
   return [...componentConfigs, htmlConfig];
 };
+
 
 // Export configurations
 export const vueEntries = getVueEntries();

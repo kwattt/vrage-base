@@ -15,8 +15,8 @@
         "jsx": "preserve"
     },
     "include": [
-        "./**/cef/**/*.vue",
-        "./**/cef/**/*.ts"
+        "../**/cef/**/*.vue",
+        "../**/cef/**/*.ts"
     ],
     "exclude": [
         "node_modules"
