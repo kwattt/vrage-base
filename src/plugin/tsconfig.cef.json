@@ -1,9 +1,9 @@
 {
-    "extends": "../../../tsconfig.base.json",
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
         "types": ["../../node_modules/@ragempcommunity/types-cef", "vue", "react"],
-        "baseUrl": "../../",
+        "baseUrl": "../",
         "paths": {
             "@shared/*": ["main/shared/*"],
         },
@@ -11,21 +11,14 @@
         "strictPropertyInitialization": false,
         "moduleResolution": "Bundler",
         "allowJs": true,
-        "jsx": "preserve",
-
-        "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true
+        "jsx": "preserve"
     },
     "include": [
-        "./**/*",            
-        "../shared/**/*",  
-        "../plugin/**/cef/**/*.ts",
-        "../plugin/**/cef/**/*.vue",
-        "../plugin/**/cef/**/*.tsx",
+        "../**/cef/**/*.vue",
+        "../**/cef/**/*.tsx",
+        "../**/cef/**/*.ts"
     ],
     "exclude": [
-        "../shared/**/*.d.ts",
         "node_modules"
     ]
 }

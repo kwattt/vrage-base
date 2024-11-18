@@ -9,12 +9,15 @@
     "@ragempcommunity/types-client": "github:ragempcommunity/ragemp-types#types-client",
     "@ragempcommunity/types-server": "github:ragempcommunity/ragemp-types#types-server",
     "@types/react": "^18.3.12",
+    "@types/underscore": "^1.13.0",
     "@vue/tsconfig": "^0.6.0",
     "dotenv": "^16.4.5",
     "kysely": "^0.27.4",
     "pg": "^8.13.1",
     "react": "^18.3.1",
-    "vue": "^3.5.13"
+    "underscore": "^1.13.7",
+    "vue": "^3.5.13",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

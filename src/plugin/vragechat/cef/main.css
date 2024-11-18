@@ -55,6 +55,31 @@
     background: rgba(0,0,0,0.75);
 }
 
+.scrollbar::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+}
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 1em;
+    background: transparent;
+}
+.scrollbar::-webkit-scrollbar-thumb{
+    border-radius: 1em;
+    background: rgba(0,0,0,0.75);
+}
+::-webkit-scrollbar {
+    width: 0.2em;
+    height: 0.5em;
+}
+::-webkit-scrollbar-track {
+    border-radius: 1em;
+    background: transparent;
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 5em;
+    background: rgba(100,100,100,0.75);
+}
+
 .message {
     color: white;
     padding-left: 0.3em;

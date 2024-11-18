@@ -128,6 +128,7 @@ mp.events.add('v-chatcommand', (command: string) => {
       chat.execute(`Chat.enableAutohide(0)`)
       config.autohide = 0
     }
+    mp.storage.data.chat = config
   } 
 })
 
