@@ -262,27 +262,47 @@ export const generateReactConfigs = (entries) => {
     external: ['react', 'react-dom'],
     plugins: [
       nodeResolve({
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        browser: true,
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
+        moduleDirectories: ['node_modules', '.yalc'],
+        preferBuiltins: false
       }),
       typescript({
         tsconfig: './tsconfig.json',
         noEmitOnError: false,
-        outputToFilesystem: false,
         compilerOptions: {
           noEmit: false,
           declaration: false,
           declarationMap: false,
           sourceMap: false,
-          emitDeclarationOnly: false,
-          outDir: path.join(buildOutput, 'client_packages', 'cef'),
+          jsx: 'react',
+          module: 'esnext',
+          target: 'es2016',
+          moduleResolution: 'node',
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          // Remove outDir from here - let Rollup handle the output
         },
-        include: ['./src/**/*.{ts,tsx}'],
-        exclude: ['node_modules', 'dist'],
+        include: ['src/**/*.{ts,tsx}'],
+        exclude: ['node_modules', 'dist']
+      }),
+      commonjs({
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        include: [
+          /node_modules/,
+          /@kwattt\/vrage/,
+          /\.yalc/
+        ],
+        transformMixedEsModules: true,
+        requireReturnsDefault: 'auto',
+        esmExternals: true
       }),
       babel({
         babelHelpers: 'bundled',
         presets: [
-          '@babel/preset-env',
+          ['@babel/preset-env', {
+            modules: false
+          }],
           '@babel/preset-react',
           '@babel/preset-typescript'
         ],
@@ -295,11 +315,9 @@ export const generateReactConfigs = (entries) => {
         ],
         extract: `${entry.name}.css`,
         minimize: true
-      }),
-      commonjs()
+      })
     ]
   }));
-
 
   const htmlConfig = {
     input: 'virtual-empty.js',

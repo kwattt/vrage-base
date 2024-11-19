@@ -8,7 +8,6 @@ import jetpack from 'fs-jetpack';
 import nodeResolvePlugin from '@rollup/plugin-node-resolve';
 import typescriptPlugin from 'rollup-plugin-typescript2';
 import commonjsPlugin from '@rollup/plugin-commonjs';
-import cssPlugin from 'rollup-plugin-css-only';
 
 const buildOutput = 'dist';
 function resolvePath(pathParts) {
@@ -309,9 +308,6 @@ export const generateVueConfigs = (entries) => {
             whitespace: 'condense'
           }
         }
-      }),
-      cssPlugin({
-        output: `${entry.name}.css`,
       }),
       typescriptPlugin({
         check: false,

@@ -1,6 +1,4 @@
-import { Server } from "@kwattt/vrage/server";
-const server = Server.getInstance();
-const cmds = server.PluginManager.getPlugin('vrage-commands')
+import { commandPlugin as cmds } from "@kwattt/vrage/server/plugins/command";
 
 if(cmds){
   cmds.addCategory({
@@ -30,7 +28,7 @@ if(cmds){
 mp.events.add('playerReady', (player) => {
   if(!cmds)
     return 
-  
-  const auto_complete = cmds.getCommandCompletions(player.v?.account?.admin || 0)
+
+  const auto_complete = cmds.getCommandCompletions(0)
   player.call('c:chat::auto_complete', [JSON.stringify(auto_complete), 'en'])
-})
+})  

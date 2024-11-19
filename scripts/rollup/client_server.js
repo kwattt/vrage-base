@@ -97,18 +97,6 @@ function copyFiles() {
 cleanUp();
 copyFiles();
 
-// Virtual entry generator for combining multiple entry points
-const createVirtualEntry = (entries) => {
-  const imports = entries.map((file, index) => `import * as mod${index} from '${file}';`).join('\n');
-  const exports = entries.map((_, index) => `mod${index}`).join(',\n  ');
-  return `
-${imports}
-
-export {
-${exports}
-};`;
-};
-
 // Safe plugin entry finder
 const getPluginEntries = (type) => {
   const pluginPath = resolvePath([sourcePath, 'plugin']);

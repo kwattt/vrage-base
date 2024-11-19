@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "emitDeclarationOnly": false
+        "outDir": "./dist/client_packages/cef",
+        "emitDeclarationOnly": false,
+        "esModuleInterop": true
     },
     "references": [
         {

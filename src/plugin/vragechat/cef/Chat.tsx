@@ -3,6 +3,9 @@ import { ChatSettings, ChatMessage, ChatCommands } from './types';
 import { ChatBridge } from './chatbridge';
 import './main.css'
 
+import {CefRPC} from '@kwattt/vrage/cef/rpc'
+CefRPC.init()
+
 const ChatApp: React.FC = () => {
   // State
   const [settings, setSettings] = useState<ChatSettings>({
@@ -13,7 +16,7 @@ const ChatApp: React.FC = () => {
     maxLength: 255,
     colorBackground: false,
     solidchat: false,
-    autohide: 5000
+    autohide: 0
   });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -255,7 +258,7 @@ const ChatApp: React.FC = () => {
       if (typeof mp !== 'undefined') {
         mp.invoke('chatMessage', message);
       } else {
-        pushMessage(`6${message}`);
+        pushMessage(`${message}`);
       }
     }
 
