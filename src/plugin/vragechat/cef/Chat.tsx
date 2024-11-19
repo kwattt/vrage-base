@@ -491,6 +491,7 @@ const ChatApp: React.FC = () => {
         />
       )}
 
+      <img src={CEF.getStaticPath('vragechat', 'step3.jpg')} alt="Chat" className="chatIcon" />
       <div
         id="autoComplete"
         dangerouslySetInnerHTML={{ __html: autoCompleteHtml }}
