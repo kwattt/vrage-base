@@ -1,0 +1,23 @@
+<!-- vue/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Component Preview</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/preview.ts"></script>
+  </body>
+  <script>
+    window.CEF = {
+      getStaticPath(pluginName, fileName) {
+        if (pluginName) {
+          return `./plugin/${pluginName}/cef/static/${fileName}`;
+        }
+        return `../src/main/cef/static/${fileName}`;
+      },
+    }
+  </script>
+</html>

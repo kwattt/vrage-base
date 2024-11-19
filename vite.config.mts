@@ -1,17 +1,21 @@
+// vite.config.mts
 import { defineConfig, ResolveFn } from 'vite';
 import react from '@vitejs/plugin-react';
+import vue from '@vitejs/plugin-vue';
 import serveStatic from "vite-plugin-serve-static";
 import path from 'path';
-
 import { existsSync } from 'fs';
 import { resolve } from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const UI_FRAMEWORK = process.env.UI_FRAMEWORK || 'react';
 
 // Check if the .yalc directory exists for the package
 const yalcPath = resolve(__dirname, '.yalc/@kwattt/vrage/dist');
 const useYalc = existsSync(yalcPath);
 
 const serveStaticPlugin = serveStatic([
-  // static files are located in src/plugin/**/cef/static
   {
     pattern: /\/plugin\/(.*)\/cef\/static\/(.*)(\..*)$/,
     resolve: (match: RegExpExecArray) => { 
@@ -26,19 +30,41 @@ const serveStaticPlugin = serveStatic([
   }
 ]);
 
-// serve all of src */plugin/**/cef/static as static files
+// Framework-specific configurations
+const frameworkConfigs = {
+  react: {
+    plugins: [react()],
+    root: 'react',
+    entry: '/preview.tsx'
+  },
+  vue: {
+    plugins: [vue()],
+    root: 'vue',
+    entry: '/preview.ts'
+  }
+};
+
+const currentConfig = frameworkConfigs[UI_FRAMEWORK];
+
 export default defineConfig({
-  plugins: [react(), serveStaticPlugin],
-  root: 'react', // Set 'react/' as the root directory
+  plugins: [...currentConfig.plugins, serveStaticPlugin],
+  root: currentConfig.root,
   server: {
-    open: true, // Opens the app in the browser automatically
+    open: true,
   },
   resolve: {
-    alias: useYalc ? {
-      '@kwattt/vrage': '/home/kv/vrage-base/.yalc/@kwattt/vrage/dist',
-    } : {}
+    alias: {
+      ...(useYalc ? {
+        '@kwattt/vrage': '/home/kv/vrage-base/.yalc/@kwattt/vrage/dist',
+      } : {}),
+      '@': path.resolve(__dirname, 'src')
+    },
+    extensions: currentConfig.extensions
   },
   build: {
-    outDir: '../dist', // Output directory, adjusted to maintain project structure
+    outDir: '../dist',
+  },
+  optimizeDeps: {
+    include: UI_FRAMEWORK === 'vue' ? ['vue'] : ['react', 'react-dom']
   },
 });

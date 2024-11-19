@@ -26,6 +26,18 @@ if (componentPath && components[componentPath]) {
     );
   });
 } else {
-  document.getElementById('root')!.innerHTML =
-    '<h1>Component not found. Specify it in the URL, e.g., ?component=main/cef/MyComponent</h1>';
+  // create links for all components so we can navigate to them
+  const componentLinks = Object.keys(components).map((component) => {
+    return (
+      <li key={component}>
+        <a href={`?component=${component}`}>{component}</a>
+      </li>
+    );
+  });
+
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <ul>{componentLinks}</ul>
+    </React.StrictMode>
+  );
 }

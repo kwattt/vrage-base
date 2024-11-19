@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "module": "ESNext",
+        "types": ["vite/client", "vue"], // Adds Vite-specific typings
+        "baseUrl": "../",
+        "lib": ["ESNext", "DOM"],
+        "paths": {
+            "@shared/*": ["main/shared/*"],
+        },
+        "strictPropertyInitialization": false,
+        "moduleResolution": "Bundler",
+        "allowJs": true,
+    },
+    "include": [
+        "./*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

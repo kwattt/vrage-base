@@ -3,7 +3,7 @@
     class="absolute right-0"
   >
     <img
-      :src="requireImage('step1.jpg')"
+      :src="requireImage('step3.jpg')"
       class="w-16 h-16"
     />
     <button @click="test('epic')">Test</button>
@@ -28,7 +28,7 @@
     methods: {
       test,
       requireImage(path: string) {
-        return CEF.getStaticPath(null, path)
+        return CEF.getStaticPath('vragechat', path)
       }
     }
   }
