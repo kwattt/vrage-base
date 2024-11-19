@@ -2,7 +2,10 @@
   <div
     class="absolute right-0"
   >
-    Test Beta 
+    <img
+      :src="requireImage('step1.jpg')"
+      class="w-16 h-16"
+    />
     <button @click="test('epic')">Test</button>
   </div>
   </template>
@@ -10,12 +13,9 @@
   <script lang="ts">
   import { test } from './test'
   import {CefRPC} from '@kwattt/vrage/cef/rpc'
-
   CefRPC.init()
 
-  mp.events.add('test', () => {
-    console.log('Test Beta')
-  })
+  //const requireImage = (path: string) => CEF.getStaticPath('main', path)
 
   export default {
     name: 'ExampleMenu',
@@ -26,7 +26,10 @@
       }
     },
     methods: {
-      test
+      test,
+      requireImage(path: string) {
+        return CEF.getStaticPath(null, path)
+      }
     }
   }
   </script>

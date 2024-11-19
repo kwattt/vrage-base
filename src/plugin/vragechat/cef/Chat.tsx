@@ -432,6 +432,7 @@ const ChatApp: React.FC = () => {
       className={`chatBox ${!isVisible ? 'hide' : ''}`}
       tabIndex={-1}
     >
+
       <div
         id="messageslist"
         className={`messageList ${settings.scrollbar && showScrollbar ? 'scrollbar' : ''}`}

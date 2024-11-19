@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "types": ["../../node_modules/@ragempcommunity/types-cef", "vue", "react"],
+        "types": ["../../node_modules/@ragempcommunity/types-cef", "vue", "react", "./types.cef.d.ts"],
         "baseUrl": "../",
         "paths": {
             "@shared/*": ["main/shared/*"],

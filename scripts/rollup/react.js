@@ -24,6 +24,58 @@ export const createValidName = (name, pluginPath = '') => {
     .join('');
 };
 
+const copyStaticFiles = () => ({
+  name: 'copy-static-files',
+  async buildStart() {
+    // Helper function to copy files and emit them
+    const copyFiles = async (sourcePath, targetPath, pattern) => {
+      const files = jetpack.find(sourcePath, { matching: pattern, recursive: true, files: true }) || [];
+      
+      for (const file of files) {
+        const relativePath = path.relative(sourcePath, file);
+        const content = await jetpack.readAsync(file, 'buffer');
+        
+        this.emitFile({
+          type: 'asset',
+          fileName: path.join(targetPath, relativePath),
+          source: content
+        });
+      }
+    };
+
+    // Copy main CEF static files
+    const mainCefPath = resolvePath([sourcePath, 'main', 'cef', 'static']);
+    if (jetpack.exists(mainCefPath)) {
+      await copyFiles(
+        mainCefPath,
+        'static',
+        ['**/*.{jpg,jpeg,png,gif,svg,webp,ico,mp3,wav,ogg,pdf,ttf,woff,woff2}']
+      );
+    }
+
+    // Copy plugin CEF static files
+    const pluginPaths = jetpack.find(resolvePath([sourcePath, 'plugin']), {
+      matching: ['**/cef/static'],
+      recursive: true,
+      directories: true
+    }) || [];
+
+    for (const pluginStaticPath of pluginPaths) {
+      const pluginPath = path.relative(
+        resolvePath([sourcePath, 'plugin']),
+        path.dirname(path.dirname(pluginStaticPath))
+      );
+      
+      await copyFiles(
+        pluginStaticPath,
+        path.join('static', 'plugins', pluginPath),
+        ['**/*.{jpg,jpeg,png,gif,svg,webp,ico,mp3,wav,ogg,pdf,ttf,woff,woff2}']
+      );
+    }
+  }
+});
+
+
 export const getReactEntries = () => {
   const entries = [];
   
@@ -169,6 +221,13 @@ export const createHtmlPlugin = (entries) => ({
         });
       },
       
+      getStaticPath(pluginName, fileName) {
+        if (pluginName) {
+          return \`./static/plugins/\${pluginName}/\${fileName}\`;
+        }
+        return \`./static/\${fileName}\`;
+      },
+
       getHighestZIndex() {
         return Math.max(...this.components.map(name => {
           const el = document.getElementById(name);
@@ -315,7 +374,8 @@ export const generateReactConfigs = (entries) => {
         ],
         extract: `${entry.name}.css`,
         minimize: true
-      })
+      }),
+      copyStaticFiles()
     ]
   }));
 
